@@ -1,0 +1,83 @@
+{
+  "rules": {
+    "notifications": {
+      "$userId": {
+        ".read": "auth != null && auth.uid == $userId",
+        ".write": "auth != null && auth.uid == $userId",
+        "$notificationId": {
+          ".read": "auth != null && auth.uid == $userId",
+          ".write": "auth != null && auth.uid == $userId",
+          ".validate": "newData.hasChildren(['id', 'userId', 'title', 'message', 'type', 'isRead', 'createdAt'])"
+        }
+      }
+    },
+    "exam-violations": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'student'"
+    },
+    "users": {
+      "$userId": {
+        ".read": "auth != null && (auth.uid == $userId || root.child('users').child(auth.uid).child('role').val() == 'admin')",
+        ".write": "auth != null && (auth.uid == $userId || root.child('users').child(auth.uid).child('role').val() == 'admin')"
+      }
+    },
+    "courses": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() == 'admin'"
+    },
+    "parts": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() == 'admin'"
+    },
+    "subjects": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() == 'admin'"
+    },
+    "tests": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() == 'admin'"
+    },
+    "questionBanks": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() == 'admin'"
+    },
+    "questions": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() == 'admin'"
+    },
+    "examResults": {
+      "$resultId": {
+        ".read": "auth != null && ((data.child('userName').val() == auth.token.email || data.child('userName').val() == auth.uid) || root.child('users').child(auth.uid).child('role').val() == 'admin')",
+        ".write": "auth != null && (newData.child('userName').val() == auth.token.email || newData.child('userName').val() == auth.uid)"
+      }
+    },
+    "messages": {
+      "$conversationId": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        "$messageId": {
+          ".read": "auth != null && (data.child('senderId').val() == auth.uid || data.child('receiverId').val() == auth.uid || root.child('users').child(auth.uid).child('role').val() == 'admin')",
+          ".write": "auth != null && (newData.child('senderId').val() == auth.uid || root.child('users').child(auth.uid).child('role').val() == 'admin')",
+          ".validate": "newData.hasChildren(['id', 'conversationId', 'senderId', 'receiverId', 'content', 'timestamp', 'isRead'])"
+        }
+      }
+    },
+    "conversations": {
+      "$conversationId": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".validate": "newData.hasChildren(['lastMessage', 'lastMessageTime', 'lastSenderId'])"
+      }
+    },
+    "user-conversations": {
+      "$userId": {
+        ".read": "auth != null && (auth.uid == $userId || root.child('users').child(auth.uid).child('role').val() == 'admin')",
+        ".write": "auth != null && (auth.uid == $userId || root.child('users').child(auth.uid).child('role').val() == 'admin')",
+        "$conversationId": {
+          ".read": "auth != null && (auth.uid == $userId || root.child('users').child(auth.uid).child('role').val() == 'admin')",
+          ".write": "auth != null && (auth.uid == $userId || root.child('users').child(auth.uid).child('role').val() == 'admin')"
+        }
+      }
+    }
+  }
+} 

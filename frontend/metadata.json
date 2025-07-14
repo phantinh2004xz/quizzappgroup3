@@ -1,0 +1,5 @@
+{
+  "name": "Animated Auth Form",
+  "description": "A responsive login and registration form with a sliding overlay animation, built with React, TypeScript, and Tailwind CSS. Features distinct panels for login and registration, with a dynamic overlay that transitions smoothly between states.",
+  "requestFramePermissions": []
+}
